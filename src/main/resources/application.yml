@@ -1,0 +1,60 @@
+spring:
+  cache:
+    jcache:
+      config: "classpath:ehcache.xml"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bddb
+    driver-class-name: org.postgresql.Driver
+    username: usr
+    password: psw
+  jpa:
+#    hibernate:
+#      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        #optional - generate statistics to check if L2/query cache is actually being used.
+
+        generate_statistics: true
+        cache:
+          #required - turn on L2 cache.
+          use_second_level_cache: true
+          #optional - turn on query cache.
+          use_query_cache: true
+          region:
+            #required - classpath to cache region factory.
+#            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+            # For EhCache 3 (or Hibernate >=5.3) this region factory should be used:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+#            factory_class: jcache
+        javax:
+          cache:
+            missing_cache_strategy: create
+            spi:
+              cachingprovider: org.ehcache.jcache.JCacheCachingProvider
+#            provider: org.ehcache.jsr107.EhcacheCachingProvider
+          persistence:
+            sharedCache:
+              #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+              mode: ENABLE_SELECTIVE
+#              mode: ALL
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    contexts: all,dev
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: trace
+
+jwt:
+  secret: dGVzdDEyMzQ1Njc4OTBlYWprZnJ2Ym5hZS5ramRybi5rYWVkamZibnZrLmFlam5yZmsudmphYmVkLmtyZnZqYm5hLmtlZGpyYmZudi5rYWRqYm5rLmFlamJyay5hZWpiZHJmdmsuYmplZGFrZnJ2amJhZWsuZHJqYnZrLmFlamJkcmsuamFlYnJra2FldnJrLmphZWJ2ay5qYWJlcmsudmpiZGVyay52anI=
