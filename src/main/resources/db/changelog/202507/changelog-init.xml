@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="init_auth_user" author="Busygin Dmitry" context="all" failOnError="true">
+        <sql splitStatements="false">
+            CREATE SCHEMA IF NOT EXISTS auth;
+            CREATE TABLE IF NOT EXISTS auth.usr
+            (
+                id bigserial NOT NULL primary key,
+                email TEXT NOT NULL,
+                hashed_password TEXT NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="init_auth_rt" author="Busygin Dmitry" context="all" failOnError="true">
+        <sql splitStatements="false">
+            CREATE TABLE IF NOT EXISTS auth.refresh_token
+            (
+                user_id bigint NOT NULL primary key,
+                expires_at TEXT NOT NULL,
+                hashed_token TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+                REFERENCES auth.usr (id) MATCH SIMPLE
+                ON UPDATE NO ACTION
+                ON DELETE CASCADE
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
