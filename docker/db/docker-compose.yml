@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    container_name: bddb
+    restart: no
+    image: postgres:17.5
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - ./.db-env
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+networks:
+  net:
+    name: md_net
