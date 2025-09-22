@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bddb
     driver-class-name: org.postgresql.Driver
-    username: usr
+    username: nifont
     password: psw
   jpa:
 #    hibernate:
