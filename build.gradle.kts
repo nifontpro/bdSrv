@@ -31,15 +31,16 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
+
 //    implementation("com.github.ben-manes.caffeine:caffeine")
 //    implementation("org.ehcache:ehcache:3.10.8")
-    implementation("org.ehcache:ehcache::jakarta")
-    implementation("org.hibernate:hibernate-jcache:6.6.18.Final") // hibernate version
+//    implementation("org.ehcache:ehcache::jakarta")
+//    implementation("org.hibernate:hibernate-jcache:6.6.18.Final") // hibernate version
 
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("com.sun.xml.bind:jaxb-impl:4.0.0")
-    implementation("org.glassfish.jaxb:jaxb-runtime:4.0.5")
-    implementation("org.glassfish.jaxb:jaxb-core:4.0.5")
+    implementation("org.hibernate.orm:hibernate-jcache")        // интеграция Hibernate↔JCache
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.github.ben-manes.caffeine:jcache") // JCache-провайдер Caffeine
+    implementation("javax.cache:cache-api:1.1.1")                // API JCache (стандарт JSR-107)
 
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
